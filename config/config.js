@@ -10,6 +10,14 @@ const config = {
     host: process.env.DB_HOST,
     dialect: "mysql",
     seederStorage: "sequelize",
+    define: {
+      underscored: true,
+      underscoredAll: true,
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      deletedAt: "deleted_at",
+    },
+    timezone: "+07:00",
   },
   test: {
     username: process.env.DB_USERNAME,
@@ -18,6 +26,14 @@ const config = {
     host: process.env.DB_HOST,
     dialect: "mysql",
     seederStorage: "sequelize",
+    define: {
+      underscored: true,
+      underscoredAll: true,
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      deletedAt: "deleted_at",
+    },
+    timezone: "+07:00",
   },
   production: {
     username: process.env.DB_USERNAME,
@@ -26,6 +42,14 @@ const config = {
     host: process.env.DB_HOST,
     dialect: "mysql",
     seederStorage: "sequelize",
+    define: {
+      underscored: true,
+      underscoredAll: true,
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      deletedAt: "deleted_at",
+    },
+    timezone: "+07:00",
   },
 };
 

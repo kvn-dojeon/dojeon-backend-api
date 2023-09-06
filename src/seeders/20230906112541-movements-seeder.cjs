@@ -116,8 +116,8 @@ module.exports = {
       data.map((d) => ({
         name: d[0],
         description: d[1],
-        createdAt: d[2],
-        updatedAt: d[3],
+        created_at: d[2],
+        updated_at: d[3],
       }))
     );
   },
