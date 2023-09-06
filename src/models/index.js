@@ -26,15 +26,34 @@ db.activity = activityModel(sequelize, Sequelize);
 db.level = levelModel(sequelize, Sequelize);
 db.movement = movementModel(sequelize, Sequelize);
 
+db.activity.belongsToMany(db.level, {
+  through: "activity_levels",
+  as: "levels",
+  foreignKey: "activity_id",
+});
+
 db.level.belongsToMany(db.activity, {
   through: "activity_levels",
   as: "activities",
   foreignKey: "level_id",
 });
-db.activity.belongsToMany(db.level, {
-  through: "activity_levels",
-  as: "levels",
-  foreignKey: "level_id",
+
+// db.activity.hasMany(db.movement, {
+//   as: "movements",
+// });
+// db.movement.belongsTo(db.activity, {
+//   foreignKey: "activity_id",
+//   as: "activities",
+// });
+db.activity.belongsToMany(db.movement, {
+  through: "activity_movements",
+  as: "movements",
+  foreignKey: "activity_id",
+});
+db.movement.belongsToMany(db.activity, {
+  through: "activity_movements",
+  as: "activities",
+  foreignKey: "movement_id",
 });
 
 export default db;

@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { findAll } from "../controllers/movement.controller.js";
+import movementController from "../controllers/movement.controller.js";
 
 const router = Router();
 
-router.route("/").get(findAll);
+router.route("/").get(movementController.findAll);
 
 export default router;
