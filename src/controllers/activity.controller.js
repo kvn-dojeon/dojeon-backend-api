@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 import { yupOptions } from "../utils/yupOptions.js";
 import { activitySchema } from "../validators/activity.js";
+import levelController from "./level.controller.js";
 import movementController from "./movement.controller.js";
 
 const Activity = db.activity;
@@ -13,24 +14,30 @@ class ActivityController {
         description,
         imageThumbnail,
         estimatedTimeNeededPerSession,
+        levelId,
+        xpReward,
         isPublic,
       } = activitySchema.validateSync(req.body, yupOptions);
 
-      const movementIds = req.body.movementIds;
+      const movementDurations = req.body.movementDurations;
 
-      // let movements = [];
+      const level = await db.level.findOne({
+        where: {
+          id: levelId,
+        },
+      });
 
-      await movementIds.split(",").forEach(async (movementId) => {
+      if (!level) throw new Error("Level not found");
+
+      for (const movementDurationData of movementDurations) {
         const movement = await db.movement.findOne({
           where: {
-            id: movementId,
+            id: movementDurationData.id,
           },
         });
 
         if (!movement) throw new Error("Movement not found");
-
-        // movements.push(movement);
-      });
+      }
 
       const activity = await Activity.create(
         {
@@ -38,11 +45,16 @@ class ActivityController {
           description: description,
           image_thumbnail: imageThumbnail,
           estimated_time_needed_per_session: estimatedTimeNeededPerSession,
+          level_id: levelId,
+          xp_reward: xpReward,
           is_public: isPublic,
-          // movements: movements,
         },
         {
           include: [
+            {
+              model: db.level,
+              as: "level",
+            },
             {
               model: db.movement,
               as: "movements",
@@ -51,9 +63,16 @@ class ActivityController {
         }
       );
 
-      await movementIds.split(",").forEach(async (movementId) => {
-        await movementController.addActivity(movementId, activity.id);
-      });
+      await levelController.addActivity(levelId, activity.id);
+
+      for (const movementDurationData of movementDurations) {
+        const { id, duration } = movementDurationData;
+        const movement = await db.movement.findByPk(id);
+
+        await activity.addMovement(movement, {
+          through: { duration: duration },
+        });
+      }
 
       res.send({ message: "Activity was created successfully!" });
     } catch (error) {
@@ -62,21 +81,7 @@ class ActivityController {
   }
 
   async findAll(req, res, next) {
-    return Activity.findAll({
-      //   include: [
-      //     {
-      //       model: db.level,
-      //       as: "levels",
-      //       attributes: ["id", "name"],
-      //       through: {
-      //         attributes: [],
-      //       },
-      //       // through: {
-      //       //   attributes: ["level_id", "activity_id"],
-      //       // },
-      //     },
-      //   ],
-    })
+    return Activity.findAll({ include: db.level })
       .then((activities) => {
         return res.json({
           data: activities,
@@ -98,9 +103,12 @@ class ActivityController {
         },
         include: [
           {
+            model: db.level,
+            as: "level",
+          },
+          {
             model: db.movement,
             as: "movements",
-            // attributes: ...
           },
         ],
       });

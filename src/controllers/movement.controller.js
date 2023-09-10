@@ -31,30 +31,30 @@ class MovementController {
       });
   }
 
-  async addActivity(movementId, activityId) {
-    return Movement.findByPk(movementId)
-      .then((movement) => {
-        if (!movement) {
-          console.log("Movement not found!");
-          return null;
-        }
-        return Activity.findByPk(activityId).then((activity) => {
-          if (!activity) {
-            console.log("Activity not found!");
-            return null;
-          }
+  // async addActivity(movementId, activityId) {
+  //   return Movement.findByPk(movementId)
+  //     .then((movement) => {
+  //       if (!movement) {
+  //         console.log("Movement not found!");
+  //         return null;
+  //       }
+  //       return Activity.findByPk(activityId).then((activity) => {
+  //         if (!activity) {
+  //           console.log("Activity not found!");
+  //           return null;
+  //         }
 
-          movement.addActivity(activity);
-          console.log(
-            `>> added Activity id=${activity.id} to Movement id=${movement.id}`
-          );
-          return movement;
-        });
-      })
-      .catch((err) => {
-        console.log(">> Error while adding Activity to Movement: ", err);
-      });
-  }
+  //         movement.addActivity(activity);
+  //         console.log(
+  //           `>> added Activity id=${activity.id} to Movement id=${movement.id}`
+  //         );
+  //         return movement;
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(">> Error while adding Activity to Movement: ", err);
+  //     });
+  // }
 }
 
 export default new MovementController();

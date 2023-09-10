@@ -5,11 +5,17 @@ const userModel = (sequelize, Sequelize) => {
       username: {
         type: Sequelize.STRING,
       },
-      email: {
+      phone_number: {
+        type: Sequelize.STRING,
+      },
+      image_url: {
         type: Sequelize.STRING,
       },
       password: {
         type: Sequelize.STRING,
+      },
+      xp: {
+        type: Sequelize.INTEGER,
       },
     },
     {

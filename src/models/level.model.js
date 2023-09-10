@@ -5,7 +5,7 @@ const levelModel = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
       },
-      image_url: {
+      color_code: {
         type: DataTypes.STRING,
       },
     },

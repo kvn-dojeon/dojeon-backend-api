@@ -14,6 +14,9 @@ const activityModel = (sequelize, Sequelize) => {
       estimated_time_needed_per_session: {
         type: Sequelize.INTEGER,
       },
+      xp_reward: {
+        type: Sequelize.INTEGER,
+      },
       is_public: {
         type: Sequelize.BOOLEAN,
       },
