@@ -52,25 +52,21 @@ class ActivityController {
       await levelController.addActivity(levelId, activity.id);
 
       for (const scheduleData of schedules) {
-        const { movementIds } = scheduleData;
+        const { movements } = scheduleData;
 
-        // Create the schedule
         const schedule = await db.schedule.create();
 
-        // Find and associate movements based on their IDs
-        const movements = await db.movement.findAll({
-          where: {
-            id: {
-              [Op.in]: movementIds,
-            },
-          },
-        });
-
-        // Associate the movements with the schedule
-        await schedule.addMovements(movements);
-
-        // Associate the schedule with the activity
         await activity.addSchedule(schedule);
+
+        for (const movementData of movements) {
+          const { movementId, duration } = movementData;
+
+          const movement = await db.movement.findByPk(movementId);
+
+          await schedule.addMovement(movement, {
+            through: { duration },
+          });
+        }
       }
 
       res.send({ message: "Activity was created successfully!" });

@@ -5,6 +5,7 @@ import activityModel from "./activity.model.js";
 import levelModel from "./level.model.js";
 import movementModel from "./movement.model.js";
 import scheduleModel from "./schedule.js";
+import scheduleMovementModel from "./schedule-movement.model.js";
 
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
@@ -27,6 +28,7 @@ db.activity = activityModel(sequelize, Sequelize);
 db.level = levelModel(sequelize, Sequelize);
 db.schedule = scheduleModel(sequelize, Sequelize);
 db.movement = movementModel(sequelize, Sequelize);
+db.scheduleMovement = scheduleMovementModel(sequelize, Sequelize);
 
 db.activity.belongsTo(db.level, { foreignKey: "level_id" });
 
@@ -36,5 +38,8 @@ db.schedule.belongsTo(db.activity);
 db.schedule.belongsToMany(db.movement, { through: "ScheduleMovement" });
 
 db.movement.belongsToMany(db.schedule, { through: "ScheduleMovement" });
+
+db.schedule.belongsToMany(db.movement, { through: db.scheduleMovement });
+db.movement.belongsToMany(db.schedule, { through: db.scheduleMovement });
 
 export default db;
