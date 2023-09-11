@@ -118,6 +118,39 @@ class AuthController {
       res.status(500).send({ success: false, message: error.message });
     }
   }
+
+  async me(req, res) {
+    try {
+      const authorization = req.headers.authorization;
+
+      if (!authorization) {
+        return res
+          .status(401)
+          .send({ success: false, message: "unauthorized" });
+      }
+
+      let decoded;
+
+      try {
+        decoded = jwt.verify(authorization, config.secret);
+      } catch (e) {
+        return res.status(401).send({
+          success: false,
+          message: "unauthorized",
+        });
+      }
+      var userId = decoded.id;
+
+      User.findOne({ _id: userId }).then(function (user) {
+        return res.status(200).send({
+          success: true,
+          data: user,
+        });
+      });
+    } catch (error) {
+      res.status(500).send({ success: false, message: error.message });
+    }
+  }
 }
 
 export default new AuthController();
