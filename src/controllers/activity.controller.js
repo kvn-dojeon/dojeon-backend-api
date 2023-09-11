@@ -1,8 +1,8 @@
+import { Op } from "sequelize";
 import db from "../models/index.js";
 import { yupOptions } from "../utils/yupOptions.js";
 import { activitySchema } from "../validators/activity.js";
 import levelController from "./level.controller.js";
-import movementController from "./movement.controller.js";
 
 const Activity = db.activity;
 
@@ -19,7 +19,7 @@ class ActivityController {
         isPublic,
       } = activitySchema.validateSync(req.body, yupOptions);
 
-      const movementDurations = req.body.movementDurations;
+      const schedules = req.body.schedules;
 
       const level = await db.level.findOne({
         where: {
@@ -28,16 +28,6 @@ class ActivityController {
       });
 
       if (!level) throw new Error("Level not found");
-
-      for (const movementDurationData of movementDurations) {
-        const movement = await db.movement.findOne({
-          where: {
-            id: movementDurationData.id,
-          },
-        });
-
-        if (!movement) throw new Error("Movement not found");
-      }
 
       const activity = await Activity.create(
         {
@@ -55,23 +45,32 @@ class ActivityController {
               model: db.level,
               as: "level",
             },
-            {
-              model: db.movement,
-              as: "movements",
-            },
           ],
         }
       );
 
       await levelController.addActivity(levelId, activity.id);
 
-      for (const movementDurationData of movementDurations) {
-        const { id, duration } = movementDurationData;
-        const movement = await db.movement.findByPk(id);
+      for (const scheduleData of schedules) {
+        const { movementIds } = scheduleData;
 
-        await activity.addMovement(movement, {
-          through: { duration: duration },
+        // Create the schedule
+        const schedule = await db.schedule.create();
+
+        // Find and associate movements based on their IDs
+        const movements = await db.movement.findAll({
+          where: {
+            id: {
+              [Op.in]: movementIds,
+            },
+          },
         });
+
+        // Associate the movements with the schedule
+        await schedule.addMovements(movements);
+
+        // Associate the schedule with the activity
+        await activity.addSchedule(schedule);
       }
 
       res.send({ message: "Activity was created successfully!" });
@@ -107,8 +106,8 @@ class ActivityController {
             as: "level",
           },
           {
-            model: db.movement,
-            as: "movements",
+            model: db.schedule,
+            include: [db.movement],
           },
         ],
       });

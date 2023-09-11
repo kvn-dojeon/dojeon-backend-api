@@ -4,7 +4,7 @@ import userModels from "../models/user.model.js";
 import activityModel from "./activity.model.js";
 import levelModel from "./level.model.js";
 import movementModel from "./movement.model.js";
-import activityMovementsModel from "./activity-movements.model.js";
+import scheduleModel from "./schedule.js";
 
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
@@ -25,20 +25,16 @@ db.sequelize = sequelize;
 db.user = userModels(sequelize, Sequelize);
 db.activity = activityModel(sequelize, Sequelize);
 db.level = levelModel(sequelize, Sequelize);
+db.schedule = scheduleModel(sequelize, Sequelize);
 db.movement = movementModel(sequelize, Sequelize);
-db.activityMovements = activityMovementsModel(sequelize, Sequelize);
 
 db.activity.belongsTo(db.level, { foreignKey: "level_id" });
 
-db.activity.belongsToMany(db.movement, {
-  through: db.activityMovements,
-  as: "movements",
-  foreignKey: "activity_id",
-});
-db.movement.belongsToMany(db.activity, {
-  through: db.activityMovements,
-  as: "activities",
-  foreignKey: "movement_id",
-});
+db.activity.hasMany(db.schedule);
+
+db.schedule.belongsTo(db.activity);
+db.schedule.belongsToMany(db.movement, { through: "ScheduleMovement" });
+
+db.movement.belongsToMany(db.schedule, { through: "ScheduleMovement" });
 
 export default db;
