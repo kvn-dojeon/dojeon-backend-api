@@ -54,12 +54,6 @@ const data = [
     "2023-09-03 00:00:00",
   ],
   [
-    "tricep-dips",
-    "Use a sturdy surface like a chair to work your triceps.",
-    "2023-09-03 00:00:00",
-    "2023-09-03 00:00:00",
-  ],
-  [
     "superman",
     "Target your lower back and improve posture.",
     "2023-09-03 00:00:00",
