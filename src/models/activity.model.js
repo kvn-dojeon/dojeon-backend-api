@@ -10,6 +10,8 @@ const activityModel = (sequelize, Sequelize) => {
       },
       image_thumbnail: {
         type: Sequelize.STRING,
+        allowNull: true,
+        // defaultValue: 'default_image_url.jpg',
       },
       estimated_time_needed_per_session: {
         type: Sequelize.INTEGER,

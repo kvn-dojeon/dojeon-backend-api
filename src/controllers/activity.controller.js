@@ -3,6 +3,7 @@ import db from "../models/index.js";
 import { yupOptions } from "../utils/yupOptions.js";
 import { activitySchema } from "../validators/activity.js";
 import levelController from "./level.controller.js";
+import { defaultImagePlaceholder, getImageURL } from "../utils/getImageURL.js";
 
 const Activity = db.activity;
 
@@ -12,7 +13,6 @@ class ActivityController {
       const {
         title,
         description,
-        imageThumbnail,
         estimatedTimeNeededPerSession,
         levelId,
         xpReward,
@@ -29,11 +29,19 @@ class ActivityController {
 
       if (!level) throw new Error("Level not found");
 
+      let imageUrl = defaultImagePlaceholder;
+
+      if (req.file) {
+        const { filename } = req.file;
+
+        imageUrl = getImageURL(filename);
+      }
+
       const activity = await Activity.create(
         {
           title: title,
           description: description,
-          image_thumbnail: imageThumbnail,
+          image_thumbnail: imageUrl,
           estimated_time_needed_per_session: estimatedTimeNeededPerSession,
           level_id: levelId,
           xp_reward: xpReward,
