@@ -29,12 +29,12 @@ const data = [
     "2023-09-03 00:00:00",
     "2023-09-03 00:00:00",
   ],
-  [
-    "burpees",
-    "A full-body exercise that combines a squat, push-up, and jump.",
-    "2023-09-03 00:00:00",
-    "2023-09-03 00:00:00",
-  ],
+  // [
+  //   "burpees",
+  //   "A full-body exercise that combines a squat, push-up, and jump.",
+  //   "2023-09-03 00:00:00",
+  //   "2023-09-03 00:00:00",
+  // ],
   [
     "jumping-jacks",
     "Good for a quick cardiovascular workout.",
@@ -59,48 +59,48 @@ const data = [
     "2023-09-03 00:00:00",
     "2023-09-03 00:00:00",
   ],
-  [
-    "russian-twists",
-    "Work your obliques and improve core stability.",
-    "2023-09-03 00:00:00",
-    "2023-09-03 00:00:00",
-  ],
+  // [
+  //   "russian-twists",
+  //   "Work your obliques and improve core stability.",
+  //   "2023-09-03 00:00:00",
+  //   "2023-09-03 00:00:00",
+  // ],
   [
     "bicycle-crunches",
     "Engage your abs and obliques.",
     "2023-09-03 00:00:00",
     "2023-09-03 00:00:00",
   ],
+  // [
+  //   "glute-bridges",
+  //   "Strengthen your glutes and lower back.",
+  //   "2023-09-03 00:00:00",
+  //   "2023-09-03 00:00:00",
+  // ],
   [
-    "glute-bridges",
-    "Strengthen your glutes and lower back.",
-    "2023-09-03 00:00:00",
-    "2023-09-03 00:00:00",
-  ],
-  [
-    "leg-raises:",
+    "leg-raises",
     "Focus on your lower abs.",
     "2023-09-03 00:00:00",
     "2023-09-03 00:00:00",
   ],
-  [
-    "side-planks",
-    "Strengthen your obliques and improve lateral stability.",
-    "2023-09-03 00:00:00",
-    "2023-09-03 00:00:00",
-  ],
-  [
-    "jump-squats",
-    "Add explosiveness to your squat routine.",
-    "2023-09-03 00:00:00",
-    "2023-09-03 00:00:00",
-  ],
-  [
-    "bear-crawls",
-    "A full-body movement that also improves coordination.",
-    "2023-09-03 00:00:00",
-    "2023-09-03 00:00:00",
-  ],
+  // [
+  //   "side-planks",
+  //   "Strengthen your obliques and improve lateral stability.",
+  //   "2023-09-03 00:00:00",
+  //   "2023-09-03 00:00:00",
+  // ],
+  // [
+  //   "jump-squats",
+  //   "Add explosiveness to your squat routine.",
+  //   "2023-09-03 00:00:00",
+  //   "2023-09-03 00:00:00",
+  // ],
+  // [
+  //   "bear-crawls",
+  //   "A full-body movement that also improves coordination.",
+  //   "2023-09-03 00:00:00",
+  //   "2023-09-03 00:00:00",
+  // ],
 ];
 
 module.exports = {
