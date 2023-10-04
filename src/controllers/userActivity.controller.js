@@ -1,9 +1,7 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 
-import db from "../models/index.js";
 import { config } from "../config/auth.config.js";
-import { formatPhoneNumber } from "../utils/formatPhoneNumber.js";
+import db from "../models/index.js";
 const Activity = db.activity;
 const User = db.user;
 const UserActivity = db.userActivity;
@@ -38,12 +36,26 @@ class UserActivityController {
       }
       var userId = decoded.id;
 
+      const userActivity = await UserActivity.findOne({
+        where: {
+          status: "in-progress",
+          user_id: userId,
+          activity_id: id,
+        },
+      });
+      if (userActivity)
+        return res.status(400).send({
+          success: false,
+          message:
+            "You already subscribe to this activity and the status is still in progress",
+        });
+
       const activity = await Activity.findByPk(id);
       const user = await User.findByPk(userId);
 
       await user.addActivity(activity);
 
-      res.send({ message: "Book was been done successfully!" });
+      res.send({ success: true, message: "Book was been done successfully!" });
     } catch (error) {
       res.status(500).send({ success: false, message: error.message });
     }
@@ -75,24 +87,12 @@ class UserActivityController {
       include: [
         {
           model: Activity,
-          include: [
-            {
-              model: db.level,
-              as: "level",
-            },
-            {
-              model: db.schedule,
-              include: [db.movement],
-            },
-          ],
-        },
-        {
-          model: User,
         },
       ],
     })
       .then((userActivities) => {
         return res.json({
+          success: true,
           data: userActivities,
         });
       })
@@ -100,6 +100,44 @@ class UserActivityController {
         console.log(">> Error while retrieving User Activities: ", err);
         return next(err);
       });
+  }
+
+  async findById(req, res) {
+    try {
+      const { id } = req.params;
+
+      const userActivity = await UserActivity.findOne({
+        where: {
+          id,
+        },
+        include: [
+          {
+            model: Activity,
+            include: [
+              {
+                model: db.level,
+                as: "level",
+              },
+              {
+                model: db.schedule,
+                include: [db.movement],
+              },
+            ],
+          },
+          {
+            model: User,
+          },
+        ],
+      });
+      if (!userActivity) throw new DataNotFound("User Activity not found");
+
+      return res.json({
+        success: true,
+        data: userActivity,
+      });
+    } catch (error) {
+      res.status(500).send({ success: false, message: error.message });
+    }
   }
 }
 

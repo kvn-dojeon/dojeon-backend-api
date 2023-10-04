@@ -12,5 +12,6 @@ router.use(function (req, res, next) {
 });
 router.route("/:id/book").post(userActivityController.book);
 router.route("/").get(userActivityController.findAll);
+router.route("/:id").get(userActivityController.findById);
 
 export default router;

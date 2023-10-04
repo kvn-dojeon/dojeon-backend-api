@@ -122,7 +122,7 @@ class ActivityController {
         data: activity,
       });
     } catch (error) {
-      res.status(500).send({ message: error.message });
+      res.status(500).send({ success: false, message: error.message });
     }
   }
 }
