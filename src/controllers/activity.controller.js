@@ -16,10 +16,16 @@ class ActivityController {
         estimatedTimeNeededPerSession,
         levelId,
         xpReward,
+        restXpReward,
+        bonusXpReward,
         isPublic,
       } = activitySchema.validateSync(req.body, yupOptions);
 
-      const schedules = req.body.schedules;
+      const schedules = JSON.parse(req.body.schedules);
+      console.log(
+        "🚀 ~ file: activity.controller.js:25 ~ ActivityController ~ create ~ schedules:",
+        schedules[0].movements
+      );
 
       const level = await db.level.findOne({
         where: {
@@ -45,6 +51,8 @@ class ActivityController {
           estimated_time_needed_per_session: estimatedTimeNeededPerSession,
           level_id: levelId,
           xp_reward: xpReward,
+          rest_xp_reward: restXpReward,
+          bonus_xp_reward: bonusXpReward,
           is_public: isPublic,
         },
         {
@@ -60,20 +68,24 @@ class ActivityController {
       await levelController.addActivity(levelId, activity.id);
 
       for (const scheduleData of schedules) {
-        const { movements } = scheduleData;
-
         const schedule = await db.schedule.create();
 
         await activity.addSchedule(schedule);
 
-        for (const movementData of movements) {
-          const { movementId, duration } = movementData;
+        if (scheduleData === null) {
+          await schedule.addMovement(null, {});
+        } else {
+          const { movements } = scheduleData;
 
-          const movement = await db.movement.findByPk(movementId);
+          for (const movementData of movements) {
+            const { movementId, duration } = movementData;
 
-          await schedule.addMovement(movement, {
-            through: { duration },
-          });
+            const movement = await db.movement.findByPk(movementId);
+
+            await schedule.addMovement(movement, {
+              through: { duration },
+            });
+          }
         }
       }
 

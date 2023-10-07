@@ -6,6 +6,8 @@ export const activitySchema = yup.object().shape({
   estimatedTimeNeededPerSession: yup.number().required(),
   levelId: yup.number().required(),
   xpReward: yup.number().required(),
+  restXpReward: yup.number().required(),
+  bonusXpReward: yup.number().required(),
   isPublic: yup.boolean().required(),
   // movementDurations: yup
   //   .array()

@@ -9,6 +9,7 @@ const scheduleMovementModel = (sequelize, DataTypes) => {
     },
     {
       underscored: true,
+      allowNull: true,
     }
   );
 
