@@ -17,12 +17,15 @@ const activityModel = (sequelize, Sequelize) => {
       },
       xp_reward: {
         type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       rest_xp_reward: {
         type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       bonus_xp_reward: {
         type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       is_public: {
         type: Sequelize.BOOLEAN,

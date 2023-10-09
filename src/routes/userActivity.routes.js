@@ -11,6 +11,9 @@ router.use(function (req, res, next) {
   next();
 });
 router.route("/:id/book").post(userActivityController.book);
+router
+  .route("/:id/update-progress")
+  .post(userActivityController.updateProgress);
 router.route("/").get(userActivityController.findAll);
 router.route("/:id").get(userActivityController.findById);
 

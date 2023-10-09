@@ -16,6 +16,7 @@ const userModel = (sequelize, Sequelize) => {
       },
       xp: {
         type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
     },
     {
