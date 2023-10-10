@@ -21,7 +21,7 @@ const userActivityModel = (sequelize, DataTypes) => {
         defaultValue: "in-progress",
       },
       completed_at: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         allowNull: true,
         defaultValue: null,
       },
