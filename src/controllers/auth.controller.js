@@ -141,7 +141,11 @@ class AuthController {
       }
       var userId = decoded.id;
 
-      User.findOne({ _id: userId }).then(function (user) {
+      User.findOne({
+        where: {
+          id: userId,
+        },
+      }).then(function (user) {
         return res.status(200).send({
           success: true,
           data: user,
