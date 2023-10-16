@@ -12,6 +12,7 @@
   },
   "type": "module",
   "scripts": {
+    "start": "node src/index.js",
     "dev": "node src/index.js",
     "seed:all": "npx sequelize db:seed:all"
   }
