@@ -11,6 +11,9 @@ import userActivityModel from "./user-activity.model.js";
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
   dialect: config.dialect,
+  dialectOptions: {
+    ssl: true,
+  },
   pool: {
     max: config.pool.max,
     min: config.pool.min,
