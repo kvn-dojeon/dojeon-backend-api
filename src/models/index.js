@@ -10,6 +10,7 @@ import userActivityModel from "./user-activity.model.js";
 
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
+  port: config.PORT,
   dialect: config.dialect,
   pool: {
     max: config.pool.max,
@@ -24,6 +25,7 @@ console.log({
   user: config.USER,
   password: config.PASSWORD,
   host: config.HOST,
+  port: config.PORT,
   dialect: config.dialect,
   pool: {
     max: config.pool.max,
