@@ -2,14 +2,14 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 
-// import db from "./models/index.js";
+import db from "./models/index.js";
 import apiRoute from "./routes/index.js";
 
 dotenv.config();
 
 const app = express();
 
-// db.sequelize.sync();
+db.sequelize.sync();
 
 var corsOptions = {
   origin: process.env.BASE_URL ?? "http://localhost:8080",
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to DOJEON application." });
 });
 
 app.use("/api", apiRoute);
