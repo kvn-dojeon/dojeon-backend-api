@@ -4,4 +4,5 @@ npm-debug.log
 .nyc
 .env
 .DS_Store
-uploads
+uploads/*
+!uploads/logo.png
