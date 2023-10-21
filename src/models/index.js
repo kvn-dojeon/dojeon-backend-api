@@ -19,6 +19,20 @@ const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   },
 });
 
+console.log({
+  db: config.DB,
+  user: config.USER,
+  password: config.PASSWORD,
+  host: config.HOST,
+  dialect: config.dialect,
+  pool: {
+    max: config.pool.max,
+    min: config.pool.min,
+    acquire: config.pool.acquire,
+    idle: config.pool.idle,
+  },
+});
+
 const db = {};
 
 db.Sequelize = Sequelize;
