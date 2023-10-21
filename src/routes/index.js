@@ -1,4 +1,5 @@
 import { Router } from "express";
+import testRoutes from "./test.routes.js";
 import authRoutes from "./auth.routes.js";
 import userRoutes from "./user.routes.js";
 import activityRoutes from "./activity.routes.js";
@@ -9,6 +10,7 @@ import leaderBoardRoutes from "./leaderBoard.routes.js";
 
 const router = Router();
 
+router.use("/test", testRoutes);
 router.use("/auth", authRoutes);
 router.use("/user", userRoutes);
 router.use("/activity", activityRoutes);
